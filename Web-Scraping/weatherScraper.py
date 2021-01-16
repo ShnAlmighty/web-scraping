@@ -4,13 +4,15 @@ from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.action_chains import ActionChains
 import time
 
-def main():
-    city = input("Enter city name: ")
-   
+def driverSetup():
     driver = webdriver.Chrome(r"C:\Users\L K PATNAIK\Desktop\shantanu\pyth\Web_Automation\Browsers\chromedriver.exe")
     driver.get("https://weather.com/en-IN/")  
     driver.set_window_size(1200,600)
+    return driver
 
+def main(driver):
+    city = input("Enter city name: ")
+   
     search_city = WebDriverWait(driver,50).until(lambda driver: driver.find_element_by_id("LocationSearch_input"))
     #driver.implicitly_wait(10)
     #ActionChains(driver).move_to_element(search_city).click(search_city).perform()
@@ -21,20 +23,25 @@ def main():
     time.sleep(5)
 
     location = WebDriverWait(driver,50).until(lambda driver: driver.find_element_by_class_name("CurrentConditions--location--1Ayv3"))
-    print(location.text)
+    print("Location: ",location.text)
     
     temperature = WebDriverWait(driver,50).until(lambda driver: driver.find_element_by_class_name("CurrentConditions--tempValue--3KcTQ"))
-    print(temperature.text)
+    print("Temperature: ",temperature.text)
     
     precipitaion = WebDriverWait(driver,50).until(lambda driver: driver.find_element_by_class_name("CurrentConditions--precipValue--RBVJT"))
-    print(precipitaion.text)
+    print("Precipitation: ",precipitaion.text)
     
     climate = WebDriverWait(driver,50).until(lambda driver: driver.find_element_by_class_name("CurrentConditions--phraseValue--2xXSr"))
-    print(climate.text)
+    print("Climate: ",climate.text)
     
     forecast =  WebDriverWait(driver,50).until(lambda driver: driver.find_element_by_xpath("//div[@class=\"TodayWeatherCard--TableWrapper--13jpa\"]"))
-    print(forecast.text)
-    driver.close()
+    print("Forecast: ",forecast.text)
 
 if __name__ == "__main__":
-    main()
+    driver = driverSetup()
+    main(driver)
+    again = input("Do you wish to know weather about another city? (yes/no): ")
+    while(again.lower() == "yes" or again.lower() == "y"):
+        main(driver)
+        again = input("Do you wish to know weather about another city? (yes/no): ")
+    driver.close()
