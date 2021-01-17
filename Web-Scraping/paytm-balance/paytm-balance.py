@@ -12,7 +12,7 @@ def SpeakText(command):
     engine.say(command)  
     engine.runAndWait()
 
-driver = webdriver.Chrome(r"C:\Users\L K PATNAIK\Desktop\shantanu\pyth\Web_Automation\Browsers\chromedriver.exe")
+driver = webdriver.Chrome(r"PATH_TO_CHROME_DRIVER.EXE")
 driver.get("https://paytm.com/")  
 driver.set_window_size(1928,1080)
 
