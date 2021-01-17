@@ -6,13 +6,11 @@ import time
 
 def driverSetup():
     driver = webdriver.Chrome(r"C:\Users\L K PATNAIK\Desktop\shantanu\pyth\Web_Automation\Browsers\chromedriver.exe")
-    driver.get("https://weather.com/en-IN/")  
+    driver.get("https://weather.com/")  
     driver.set_window_size(1200,600)
     return driver
 
-def main(driver):
-    city = input("Enter city name: ")
-   
+def main(driver,city):
     search_city = WebDriverWait(driver,50).until(lambda driver: driver.find_element_by_id("LocationSearch_input"))
     #driver.implicitly_wait(10)
     #ActionChains(driver).move_to_element(search_city).click(search_city).perform()
@@ -38,10 +36,15 @@ def main(driver):
     print("Forecast: ",forecast.text)
 
 if __name__ == "__main__":
+    city = input("Enter city name: ")
     driver = driverSetup()
-    main(driver)
+    main(driver,city)
     again = input("Do you wish to know weather about another city? (yes/no): ")
     while(again.lower() == "yes" or again.lower() == "y"):
-        main(driver)
+        city = input("Enter city name: ")
+        if(city):
+            main(driver,city)
+        else: 
+            print("Please enter a city's name")
         again = input("Do you wish to know weather about another city? (yes/no): ")
     driver.close()
