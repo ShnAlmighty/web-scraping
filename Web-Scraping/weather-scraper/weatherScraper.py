@@ -5,7 +5,7 @@ from selenium.webdriver.common.action_chains import ActionChains
 import time
 
 def driverSetup():
-    driver = webdriver.Chrome(r"C:\Users\L K PATNAIK\Desktop\shantanu\pyth\Web_Automation\Browsers\chromedriver.exe")
+    driver = webdriver.Chrome(r"PATH_TO_CHROME_DRIVER.EXE")
     driver.get("https://weather.com/")  
     driver.set_window_size(1200,600)
     return driver
