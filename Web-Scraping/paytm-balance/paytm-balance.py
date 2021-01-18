@@ -3,7 +3,6 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.common.keys import Keys
 # from selenium.webdriver.common.action_chains import ActionChains
 import time
-import speech_recognition as sr 
 import pyttsx3
 
 
@@ -12,7 +11,7 @@ def SpeakText(command):
     engine.say(command)  
     engine.runAndWait()
 
-driver = webdriver.Chrome(r"PATH_TO_CHROME_DRIVER.EXE")
+driver = webdriver.Chrome(r"PATH_TO_CHROME_DRIVER_EXE")
 driver.get("https://paytm.com/")  
 driver.set_window_size(1928,1080)
 
@@ -34,14 +33,19 @@ while(True):
     driver.refresh()
     temp = WebDriverWait(driver,50).until(lambda driver: driver.find_element_by_class_name("VQt2"))
     time.sleep(5)
-    print(temp.text)
+    # print(temp.text)
     tempNew = str(temp.text) 
     tempNew.split()
     newPrice = [x for i,x in enumerate(tempNew) if i>2]
     newPrice = ''.join(newPrice)
     if(float(newPrice)>float(oldPrice)):
-        print("Money Recieved:",(float(newPrice)-float(oldPrice)))
         payment = (float(newPrice)-float(oldPrice))
-        say = "{} rupees recieved in paytm account".format(payment)
-        oldPrice=newPrice
+        print("Money Recieved:",payment)
+        say = "{}. rupees. recieved. in paytm. Wallet".format(payment)
         SpeakText(say)
+    elif(float(newPrice)<float(oldPrice)):
+        payment = (float(oldPrice)-float(newPrice))
+        print("Money Deducted:",payment)
+        say = "{}. rupees. deducted. from Paytm. Wallet".format(payment)
+        SpeakText(say)
+    oldPrice=newPrice
